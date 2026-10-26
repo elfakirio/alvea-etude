@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Confidentialité · Alvea dental</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .doc{max-width:680px;margin:0 auto;padding-top:28px;padding-bottom:48px;display:flex;flex-direction:column;gap:18px}
+  .doc h2{font-size:18px;margin-top:6px}
+  .doc p,.doc li{margin:0;color:var(--fg)}
+  .doc ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+  [data-l][hidden]{display:none}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in gutter">
+    <a class="logo" href="./" aria-label="Alvea dental" style="text-decoration:none;color:inherit">
+      <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14B8A6"/><stop offset="1" stop-color="#7DD3C0"/></linearGradient></defs>
+        <path d="M7 10v9a13 13 0 0 0 26 0v-9" fill="none" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="20" cy="17" r="6" fill="url(#lg)"/>
+      </svg>
+      <b>Alvea</b><span>dental</span>
+    </a>
+    <div class="langs" role="group" aria-label="Langue / Language">
+      <button type="button" data-set="fr" aria-pressed="true" lang="fr">FR</button>
+      <button type="button" data-set="en" aria-pressed="false" lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="gutter">
+  <article class="doc" data-l="fr" lang="fr">
+    <h1>Confidentialité</h1>
+    <p class="lead">Cette page explique ce que deviennent vos réponses à l'étude Alvea dental.</p>
+    <h2>Qui collecte</h2>
+    <p>Omar El Fakiri, porteur du projet Alvea dental (Bruxelles).</p>
+    <h2>Pourquoi</h2>
+    <p>Pour une étude de marché sur un produit qui n'existe pas encore : un outil qui aide les dentistes à expliquer leurs plans de traitement. Rien n'est vendu.</p>
+    <h2>Quelles données</h2>
+    <ul>
+      <li>Vos réponses au questionnaire.</li>
+      <li>Vos coordonnées (nom, email, téléphone), seulement si vous choisissez de les donner.</li>
+      <li><strong>Aucune donnée de patient</strong> n'est demandée. Merci de ne pas en écrire dans les champs libres.</li>
+    </ul>
+    <h2>Où elles sont stockées</h2>
+    <p>Les réponses sont transmises par le service Make vers une base Airtable privée, accessible uniquement au porteur du projet.</p>
+    <h2>Combien de temps</h2>
+    <p>Jusqu'à la fin de l'étude, et au plus 24 mois.</p>
+    <h2>Vos droits</h2>
+    <p>Vous pouvez demander à accéder à vos réponses, à les corriger ou à les supprimer en écrivant à <a href="mailto:contact@…">contact@…</a>.</p>
+    <h2>Cookies et suivi</h2>
+    <p>Ce site n'utilise <strong>aucun cookie</strong> et aucun outil de pistage publicitaire ou de mesure d'audience. Votre navigateur garde seulement vos réponses en cours (stockage local), pour vous permettre de reprendre le questionnaire si vous fermez l'onglet. Elles sont effacées après l'envoi, ou avec le bouton « Recommencer ».</p>
+    <p><a href="./">← Retour à l'étude</a></p>
+  </article>
+
+  <article class="doc" data-l="en" lang="en" hidden>
+    <h1>Privacy</h1>
+    <p class="lead">This page explains what happens to your answers to the Alvea dental study.</p>
+    <h2>Who collects</h2>
+    <p>Omar El Fakiri, founder of the Alvea dental project (Brussels).</p>
+    <h2>Why</h2>
+    <p>For market research on a product that doesn't exist yet: a tool that helps dentists explain their treatment plans. Nothing is being sold.</p>
+    <h2>What data</h2>
+    <ul>
+      <li>Your answers to the questionnaire.</li>
+      <li>Your contact details (name, email, phone), only if you choose to give them.</li>
+      <li><strong>No patient data</strong> is requested. Please don't write any in the free-text fields.</li>
+    </ul>
+    <h2>Where it is stored</h2>
+    <p>Answers are sent through the Make service to a private Airtable base, accessible only to the project founder.</p>
+    <h2>How long</h2>
+    <p>Until the end of the study, and 24 months at most.</p>
+    <h2>Your rights</h2>
+    <p>You can ask to access, correct or delete your answers by writing to <a href="mailto:contact@…">contact@…</a>.</p>
+    <h2>Cookies and tracking</h2>
+    <p>This site uses <strong>no cookies</strong> and no advertising or analytics tracking. Your browser only keeps your answers in progress (local storage), so you can resume the questionnaire if you close the tab. They are deleted after sending, or with the “Start over” button.</p>
+    <p><a href="./">← Back to the study</a></p>
+  </article>
+</main>
+<script>
+(function () {
+  var stored = null;
+  try { stored = JSON.parse(localStorage.getItem("alvea-lang")); } catch (e) {}
+  var q = new URLSearchParams(location.search).get("lang");
+  var lang = q || stored || ((navigator.language || "").toLowerCase().indexOf("en") === 0 ? "en" : "fr");
+  function set(l) {
+    document.documentElement.lang = l;
+    document.title = l === "en" ? "Privacy · Alvea dental" : "Confidentialité · Alvea dental";
+    document.querySelectorAll("[data-l]").forEach(function (a) { a.hidden = a.getAttribute("data-l") !== l; });
+    document.querySelectorAll("[data-set]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-set") === l)); });
+  }
+  document.querySelectorAll("[data-set]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var l = b.getAttribute("data-set");
+      try { localStorage.setItem("alvea-lang", JSON.stringify(l)); } catch (e) {}
+      set(l);
+    });
+  });
+  set(lang === "en" ? "en" : "fr");
+})();
+</script>
+</body>
+</html>

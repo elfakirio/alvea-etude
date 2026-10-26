@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alvea dental · Étude auprès des dentistes</title>
+<meta name="description" content="Comment vos patients comprennent-ils vos plans de traitement ? Une étude de 6 minutes auprès des dentistes, avec une démo 3D.">
+<meta name="theme-color" content="#F5F8F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111A1F" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Alvea dental">
+<meta property="og:title" content="Comment vos patients comprennent-ils vos plans ?">
+<meta property="og:description" content="Une étude de 6 minutes auprès des dentistes, avec une démo 3D. Rien à acheter.">
+<meta property="og:url" content="https://elfakirio.github.io/alvea-etude/">
+<meta property="og:image" content="https://elfakirio.github.io/alvea-etude/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Alvea dental : Comment vos patients comprennent-ils vos plans ?">
+<meta property="og:locale" content="fr_BE">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="modulepreload" href="js/app.js">
+</head>
+<body>
+<a class="sr-only" href="#screen">Aller au contenu</a>
+<header class="topbar">
+  <div class="topbar-in gutter">
+    <div class="logo" aria-label="Alvea dental" role="img">
+      <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14B8A6"/><stop offset="1" stop-color="#7DD3C0"/></linearGradient></defs>
+        <path d="M7 10v9a13 13 0 0 0 26 0v-9" fill="none" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="20" cy="17" r="6" fill="url(#lg)"/>
+      </svg>
+      <b>Alvea</b><span>dental</span>
+    </div>
+    <div class="top-actions">
+      <button class="link-btn" id="restart" type="button" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="rs-label">Recommencer</span></button>
+      <div class="langs" role="group" aria-label="Langue" id="langs">
+        <button type="button" data-lang="fr" aria-pressed="true" lang="fr">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+  <div class="progress" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><i></i></div>
+</header>
+
+<main id="screen" class="gutter" tabindex="-1">
+  <noscript><p style="max-width:640px;margin:40px auto">Cette étude a besoin de JavaScript. · This study needs JavaScript.</p></noscript>
+</main>
+
+<nav class="navbar gutter" id="navbar" hidden>
+  <div class="navbar-in">
+    <button class="btn ghost" id="back" type="button">Retour</button>
+    <span class="status" id="navStatus" aria-live="polite"></span>
+    <button class="btn next" id="next" type="button">Continuer</button>
+  </div>
+</nav>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
