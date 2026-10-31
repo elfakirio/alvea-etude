@@ -3,69 +3,170 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Alvea dental · Étude auprès des dentistes</title>
-<meta name="description" content="Comment vos patients comprennent-ils vos plans de traitement ? Une étude de 6 minutes auprès des dentistes, avec une démo 3D.">
+<script>
+  /* Anciens liens elfakirio.github.io/alvea-etude/?ref=… : GitHub les renvoie ici. On les envoie au questionnaire. */
+  (function () { var q = new URLSearchParams(location.search); if (q.get("ref")) location.replace("etude/" + location.search); })();
+</script>
+<title>Alvea · Des plans de traitement que vos patients comprennent</title>
+<meta name="description" content="Le dentiste dicte son plan, Alvea le transforme en un plan clair, en 3D, que le patient peut revoir chez lui. Alvea se construit en ce moment, avec des dentistes : participez à l'étude (5 minutes).">
 <meta name="theme-color" content="#F5F8F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111A1F" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Alvea dental">
-<meta property="og:title" content="Comment vos patients comprennent-ils vos plans ?">
-<meta property="og:description" content="Une étude de 6 minutes auprès des dentistes, avec une démo 3D. Rien à acheter.">
-<meta property="og:url" content="https://elfakirio.github.io/alvea-etude/">
-<meta property="og:image" content="https://elfakirio.github.io/alvea-etude/assets/og-image.png">
+<meta property="og:title" content="Alvea — Des plans de traitement que vos patients comprennent">
+<meta property="og:description" content="Le dentiste dicte, le patient comprend. Alvea se construit avec des dentistes : une étude de 5 minutes, avec une démo.">
+<meta property="og:url" content="https://alveadental.eu/">
+<meta property="og:image" content="https://alveadental.eu/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Alvea dental : Comment vos patients comprennent-ils vos plans ?">
+<meta property="og:image:alt" content="Alvea : des plans de traitement que vos patients comprennent">
 <meta property="og:locale" content="fr_BE">
 <meta property="og:locale:alternate" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="etude/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="etude/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="etude/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/style.css">
-<link rel="modulepreload" href="js/app.js">
+<link rel="stylesheet" href="etude/css/style.css">
+<link rel="stylesheet" href="landing.css">
+<link rel="modulepreload" href="landing.js">
 </head>
-<body>
-<a class="sr-only" href="#screen">Aller au contenu</a>
+<body class="landing">
+<a class="sr-only" href="#main" data-t="skip">Aller au contenu</a>
 <header class="topbar">
   <div class="topbar-in gutter">
-    <div class="logo" aria-label="Alvea dental" role="img">
+    <a class="logo" href="./" aria-label="Alvea dental">
       <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
         <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14B8A6"/><stop offset="1" stop-color="#7DD3C0"/></linearGradient></defs>
         <path d="M7 10v9a13 13 0 0 0 26 0v-9" fill="none" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round"/>
         <circle cx="20" cy="17" r="6" fill="url(#lg)"/>
       </svg>
       <b>Alvea</b><span>dental</span>
-    </div>
+    </a>
     <div class="top-actions">
-      <button class="link-btn" id="restart" type="button" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="rs-label">Recommencer</span></button>
+      <a class="top-cta study-link" href="etude/"><span class="long" data-t="navCta">Participer à l'étude</span><span class="short" data-t="navCtaShort">L'étude</span></a>
       <div class="langs" role="group" aria-label="Langue" id="langs">
         <button type="button" data-lang="fr" aria-pressed="true" lang="fr">FR</button>
         <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
       </div>
     </div>
   </div>
-  <div class="progress" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><i></i></div>
 </header>
 
-<main id="screen" class="gutter" tabindex="-1">
-  <noscript><p style="max-width:640px;margin:40px auto">Cette étude a besoin de JavaScript. · This study needs JavaScript.</p></noscript>
+<main id="main" tabindex="-1">
+  <section class="hero gutter">
+    <div class="hero-in">
+      <div class="hero-text">
+        <p class="kicker eyebrow"><i aria-hidden="true"></i><span data-t="eyebrow">Étude en cours auprès des dentistes</span></p>
+        <h1 data-t="title">Des plans de traitement que vos patients comprennent.</h1>
+        <p class="lead" data-t="sub">Le dentiste dicte son plan, Alvea le transforme en un plan clair, en 3D, que le patient peut revoir chez lui.</p>
+        <p class="building" data-t="building">Alvea se construit en ce moment, avec des dentistes.</p>
+        <div class="cta-row">
+          <a class="btn big study-link" href="etude/"><span data-t="cta">Participer à l'étude · 5 min</span><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="text-link mail-link" href="mailto:omar@alveadental.eu" data-t="write">Écrire à Omar</a>
+        </div>
+      </div>
+
+      <div class="hero-demo">
+        <p class="sr-only" data-t="demoSummary">Démonstration animée, sur un cas fictif : le dentiste dicte « 36 fracturée, extraction et greffe. Implant à 8 semaines. Couronne céramique sur la 37, provisoire en attendant. » Alvea en fait un plan en 4 visites, avec la bouche en 3D, puis l'envoie par SMS à la patiente, qui l'ouvre chez elle avec le devis par visite : 605 €, 1 100 €, 350 € et 1 600 €, soit 3 655 €.</p>
+        <div class="assist" id="assist" aria-hidden="true">
+          <div class="assist-bar">
+            <span class="dots3"><i></i><i></i><i></i></span>
+            <span class="assist-name">Alvea</span>
+            <span class="tag" data-t="demoTag">Démo · cas fictif</span>
+          </div>
+          <div class="assist-body">
+            <!-- a. accueil + b. dictée -->
+            <div class="layer home" id="lHome">
+              <svg class="home-mark" viewBox="0 0 40 40"><path d="M7 10v9a13 13 0 0 0 26 0v-9" fill="none" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round"/><circle cx="20" cy="17" r="6" fill="url(#lg)"/></svg>
+              <p class="home-hello" data-t="hello">Quel plan voulez-vous expliquer ?</p>
+            </div>
+            <!-- c. d. conversation -->
+            <div class="layer chat" id="lChat">
+              <div class="chat-in" id="chatIn">
+                <div class="b-user" id="bUser"></div>
+                <div class="b-alvea" id="bThink">
+                  <span class="av"><svg viewBox="0 0 40 40"><path d="M7 10v9a13 13 0 0 0 26 0v-9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="20" cy="17" r="6" fill="#fff"/></svg></span>
+                  <ul class="think" id="think"></ul>
+                </div>
+                <div class="answer" id="answer">
+                  <div class="mouth-slot" id="slotCard"><div class="mouth3d" id="mouth"></div></div>
+                  <ol class="visits" id="visits"></ol>
+                  <p class="sum" id="sum"></p>
+                  <span class="send-btn" id="sendBtn"></span>
+                </div>
+              </div>
+            </div>
+            <!-- barre de saisie -->
+            <div class="composer" id="composer">
+              <span class="typed" id="typed"><span class="ph" id="ph"></span></span>
+              <span class="mic"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+              <span class="send" id="send"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <!-- e. le téléphone de la patiente -->
+            <div class="scrim" id="scrim"></div>
+            <div class="phone" id="phone">
+              <div class="phone-in">
+                <div class="ph-sms" id="phSms">
+                  <p class="sms-from" id="smsFrom"></p>
+                  <p class="sms-b"><span id="smsText"></span> <u id="smsLink"></u></p>
+                </div>
+                <div class="ph-page" id="phPage">
+                  <p class="pp-url">alveadental.eu</p>
+                  <p class="pp-title" id="ppTitle"></p>
+                  <div class="mouth-slot small" id="slotPhone"></div>
+                  <ul class="pp-bill" id="ppBill"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps gutter" aria-labelledby="stepsT">
+    <h2 class="sr-only" id="stepsT" data-t="stepsTitle">Comment ça marcherait</h2>
+    <ol class="steps-in">
+      <li class="step">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="12" y="4" width="8" height="15" rx="4"/><path d="M7 15a9 9 0 0 0 18 0M16 24v4M11 28h10"/></svg>
+        <h3 data-t="s1t">Vous dictez</h3>
+        <p data-t="s1p">Avec vos mots, comme à un confrère.</p>
+      </li>
+      <li class="step">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 4h12l6 6v18H8z"/><path d="M19 4v7h7"/><path d="M12 19l3 3 6-7"/></svg>
+        <h3 data-t="s2t">Vous validez</h3>
+        <p data-t="s2p">Vous relisez tout, rien ne part sans votre accord.</p>
+      </li>
+      <li class="step">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="9" y="3" width="14" height="26" rx="3"/><path d="M14 25h4"/><path d="M13 13.5c0-2.5 1.4-4 3-4s3 1.5 3 4c0 2-1 3-1.3 5.5h-3.4C14 16.5 13 15.5 13 13.5z"/></svg>
+        <h3 data-t="s3t">Le patient comprend</h3>
+        <p data-t="s3p">Un lien clair, en 3D, qu'il revoit chez lui.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="why gutter" aria-labelledby="whyT">
+    <div class="why-in">
+      <h2 id="whyT" data-t="whyTitle">Pourquoi cette étude</h2>
+      <p data-t="whyText">Avant de construire quoi que ce soit, je veux comprendre comment vous présentez vos plans aujourd'hui, et ce qui fait qu'un patient dit oui. 5 minutes, et une démo à la fin.</p>
+      <a class="btn big study-link" href="etude/"><span data-t="cta">Participer à l'étude · 5 min</span><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
 </main>
 
-<nav class="navbar gutter" id="navbar" hidden>
-  <div class="navbar-in">
-    <button class="btn ghost" id="back" type="button">Retour</button>
-    <span class="status" id="navStatus" aria-live="polite"></span>
-    <button class="btn next" id="next" type="button">Continuer</button>
+<footer class="lfoot gutter">
+  <div class="lfoot-in">
+    <p><span id="fName">Omar</span> · <a class="mail-link" id="fMail" href="mailto:omar@alveadental.eu">omar@alveadental.eu</a><span id="fIn"></span></p>
+    <p><a class="priv-link" href="etude/confidentialite.html" data-t="privacy">Confidentialité</a> · © 2026 Alvea</p>
   </div>
-</nav>
+</footer>
 
-<script type="module" src="js/app.js"></script>
+<script type="module" src="landing.js"></script>
 </body>
 </html>
