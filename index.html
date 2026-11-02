@@ -68,7 +68,7 @@
         <p class="building" data-t="building">Alvea se construit en ce moment, avec des dentistes.</p>
         <div class="cta-row">
           <a class="btn big study-link" href="etude/"><span data-t="cta">Participer à l'étude · 5 min</span><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a class="text-link mail-link" href="mailto:omar@alveadental.eu" data-t="write">Écrire à Omar</a>
+          <a class="text-link mail-link" href="mailto:omar@alveadental.eu" data-t="write">Nous contacter</a>
         </div>
       </div>
 
@@ -95,7 +95,8 @@
                   <ul class="think" id="think"></ul>
                 </div>
                 <div class="answer" id="answer">
-                  <div class="mouth-slot" id="slotCard"><div class="mouth3d" id="mouth"></div></div>
+                  <div class="mouth-slot" id="slotCard"><div class="mouth3d" id="mouth"></div>
+                    <picture class="mouth-still"><source srcset="etude/assets/mouth-final-dark.jpg" media="(prefers-color-scheme: dark)"><img src="etude/assets/mouth-final-light.jpg" alt="" width="320" height="200" loading="lazy" decoding="async"></picture></div>
                   <ol class="visits" id="visits"></ol>
                   <p class="sum" id="sum"></p>
                   <span class="send-btn" id="sendBtn"></span>
@@ -116,11 +117,20 @@
                   <p class="sms-from" id="smsFrom"></p>
                   <p class="sms-b"><span id="smsText"></span> <u id="smsLink"></u></p>
                 </div>
+                <!-- la vue patient de la démo (chapitres 3 à 5), jouée en automatique -->
                 <div class="ph-page" id="phPage">
                   <p class="pp-url">alveadental.eu</p>
-                  <p class="pp-title" id="ppTitle"></p>
-                  <div class="mouth-slot small" id="slotPhone"></div>
-                  <ul class="pp-bill" id="ppBill"></ul>
+                  <div class="pv">
+                    <div class="pv-scr" id="pvPlan">
+                      <div class="plan-head pv-in" id="pvHead"></div>
+                      <div class="mouth-slot small pv-in" id="slotPhone">
+                        <picture class="mouth-still"><source srcset="etude/assets/mouth-final-dark.jpg" media="(prefers-color-scheme: dark)"><img src="etude/assets/mouth-final-light.jpg" alt="" width="320" height="200" loading="lazy" decoding="async"></picture></div>
+                      <div class="pv-in" id="pvDots"></div>
+                      <div class="step-card pv-in" id="pvCard"></div>
+                    </div>
+                    <div class="pv-scr" id="pvWhy"></div>
+                    <div class="pv-scr" id="pvBill"></div>
+                  </div>
                 </div>
               </div>
             </div>

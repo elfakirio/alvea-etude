@@ -206,7 +206,8 @@ export function createMouth(box, opts = {}) {
       cancelAnimationFrame(raf); ro.disconnect(); io.disconnect();
       if (controls) controls.dispose();
       scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
-      renderer.dispose(); renderer.domElement.remove();
+      // forceContextLoss libère le contexte WebGL tout de suite (sinon le navigateur attend le ramasse-miettes)
+      renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove();
     }
   };
 }

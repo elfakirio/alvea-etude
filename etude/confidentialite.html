@@ -48,14 +48,15 @@
     <h2>Quelles données</h2>
     <ul>
       <li>Vos réponses au questionnaire.</li>
-      <li>Vos coordonnées (nom, e-mail, téléphone), seulement si vous choisissez de les donner. L'e-mail sert à vous recontacter au sujet de l'étude ; le téléphone sert uniquement à organiser un appel que vous avez accepté.</li>
+      <li>Vos coordonnées (prénom, nom, e-mail), seulement si vous choisissez de les donner. Elles servent uniquement à vous recontacter au sujet de l'étude.</li>
+      <li>La source de votre visite (paramètres UTM du lien, par exemple « linkedin »), si le lien en contenait. Elle est enregistrée avec votre réponse, sans cookie.</li>
       <li>Si vous le souhaitez, votre compte Instagram ou LinkedIn (facultatif).</li>
       <li><strong>Aucune donnée de patient</strong> n'est demandée. Merci de ne pas en écrire dans les champs libres.</li>
     </ul>
     <h2>Où elles sont stockées</h2>
     <p>Les réponses sont transmises par le service Make vers une base Airtable privée, accessible uniquement au porteur du projet.</p>
     <h2>Prise de rendez-vous</h2>
-    <p>Si vous acceptez un appel, le calendrier de prise de rendez-vous est fourni par Cal.com et s'affiche dans la page. Votre nom, votre e-mail et votre téléphone y sont pré-remplis pour vous faire gagner du temps : pour cela, ils sont transmis à Cal.com à l'affichage du calendrier. Ils ne sont enregistrés comme rendez-vous que si vous réservez un créneau. Cal.com applique alors sa propre politique de confidentialité.</p>
+    <p>La prise de rendez-vous est gérée par Cal.com (Cal.com, Inc.), qui traite votre nom et votre e-mail pour organiser l'appel et vous envoyer l'invitation. Le calendrier se charge depuis app.cal.com seulement si vous choisissez l'appel, après l'envoi de vos réponses. Votre nom et votre e-mail y sont pré-remplis pour vous faire gagner du temps ; ils ne sont enregistrés comme rendez-vous que si vous réservez un créneau. Cal.com applique sa propre politique de confidentialité.</p>
     <h2>Combien de temps</h2>
     <p>Jusqu'à la fin de l'étude, et au plus 24 mois.</p>
     <h2>Vos droits</h2>
@@ -75,14 +76,15 @@
     <h2>What data</h2>
     <ul>
       <li>Your answers to the questionnaire.</li>
-      <li>Your contact details (name, email, phone), only if you choose to give them. Your email is used to get back to you about the study; your phone number is only used to arrange a call you agreed to.</li>
+      <li>Your contact details (first name, last name, email), only if you choose to give them. They are only used to get back to you about the study.</li>
+      <li>The source of your visit (the link's UTM parameters, for example “linkedin”), if the link contained any. It is saved with your answers, without any cookie.</li>
       <li>If you wish, your Instagram or LinkedIn account (optional).</li>
       <li><strong>No patient data</strong> is requested. Please don't write any in the free-text fields.</li>
     </ul>
     <h2>Where it is stored</h2>
     <p>Answers are sent through the Make service to a private Airtable base, accessible only to the project founder.</p>
     <h2>Booking a call</h2>
-    <p>If you agree to a call, the booking calendar is provided by Cal.com and shown inside the page. Your name, email and phone are pre-filled to save you time: to do this, they are passed to Cal.com when the calendar loads. They are only saved as a booking if you book a slot. Cal.com's own privacy policy then applies.</p>
+    <p>Booking is handled by Cal.com (Cal.com, Inc.), which processes your name and email to arrange the call and send you the invitation. The calendar loads from app.cal.com only if you choose the call, after your answers have been sent. Your name and email are pre-filled to save you time; they are only saved as a booking if you book a slot. Cal.com's own privacy policy applies.</p>
     <h2>How long</h2>
     <p>Until the end of the study, and 24 months at most.</p>
     <h2>Your rights</h2>
@@ -97,7 +99,8 @@
   var stored = null;
   try { stored = JSON.parse(localStorage.getItem("alvea-lang")); } catch (e) {}
   var q = new URLSearchParams(location.search).get("lang");
-  var lang = q || stored || ((navigator.language || "").toLowerCase().indexOf("en") === 0 ? "en" : "fr");
+  var first = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+  var lang = (q === "fr" || q === "en") ? q : (stored === "fr" || stored === "en") ? stored : (first.toLowerCase().indexOf("fr") === 0 ? "fr" : "en");
   function set(l) {
     document.documentElement.lang = l;
     document.title = l === "en" ? "Privacy · Alvea dental" : "Confidentialité · Alvea dental";

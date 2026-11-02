@@ -4,7 +4,7 @@ Une table (en service : `Réponses v2`), avec **une colonne par clé du payload*
 
 Les valeurs des choix sont **toujours en français**, même quand le répondant a lu le site en anglais (`langue` vaut alors `EN`). Pour les colonnes « Single select » et « Multiple select », créez les options à l'avance en les copiant telles quelles (apostrophes droites `'`, guillemets « » et espaces compris). Si votre module Make propose l'option *typecast* (création automatique des options), vous pouvez l'activer à la place.
 
-Un champ non rempli arrive vide : `""` pour un texte, `[]` pour une liste, `false` pour une case, `null` pour un nombre.
+Un champ non rempli **n'est pas envoyé** : la clé est absente du JSON (texte vide, liste vide ou nombre manquant). Les cases à cocher partent toujours (`true` / `false`). Dans Make, une clé absente donne une valeur vide : rien à changer dans le module « Create a record ».
 
 ## Clés techniques
 
@@ -14,7 +14,8 @@ Un champ non rempli arrive vide : `""` pour un texte, `[]` pour une liste, `fals
 | `envoye_par` | texte | Single line text | `code_partage` de la personne qui a transmis le lien (`?ref=`), vide sinon |
 | `code_partage` | texte | Single line text | Code de 6 caractères du répondant, utilisé dans son lien de partage |
 | `duree_secondes` | nombre | Number (entier) | Durée totale du parcours |
-| `website` | texte | *pas de colonne* | Piège à robots : sert seulement au filtre Make (« `website` est vide ») |
+| `utm` | texte | Single line text | Source de la visite : « source / medium / campaign » (`-` pour une valeur absente), par ex. `linkedin / profile / -`. Absente sans paramètres UTM |
+| `website` | texte | *pas de colonne* | Piège à robots : sert seulement au filtre Make (« `website` est vide »). Normalement absent (vide), présent seulement si un robot l'a rempli |
 
 ## Réponses
 
@@ -28,7 +29,7 @@ Un champ non rempli arrive vide : `""` pour un texte, `[]` pour une liste, `fals
 | `type_cabinet` | texte | Single select | Seul(e) · Cabinet de groupe · Centre dentaire / polyclinique · Hôpital / université |
 | `annees_exercice` | texte | Single select | Moins de 5 ans · 5 à 15 ans · 15 à 25 ans · Plus de 25 ans |
 | `part_implanto` | texte | Single select | Aucune · Moins de 20 % · 20 à 50 % · Plus de 50 % |
-| `pays` | texte | Single select | Belgique · France · Luxembourg · Suisse · Pays-Bas · Autre |
+| `pays` | texte | Single line text (ou Single select avec *typecast* activé dans Make) | Nom du pays **en français**, quelle que soit la langue du site : liste mondiale (« Belgique », « Maroc », « États-Unis »…), ou « Autre » |
 | `supports` | liste | Multiple select | À l'oral uniquement · Dessin sur papier · Radio (panoramique, rétro-alvéolaire) · Cone beam (radio 3D) · Caméra ou photos intrabuccales · Scan intraoral 3D · Modèle physique / maquette · Simulation du sourire (smile design, mock-up) · Photos avant/après d'autres patients · Vidéos, logiciel ou brochures explicatives · Devis écrit · Autre |
 | `supports_autre` | texte | Single line text | |
 | `qui_presente` | liste | Multiple select | Moi · Un(e) assistant(e) · Un(e) coordinateur(trice) de traitement · Le secrétariat |
@@ -56,9 +57,8 @@ Un champ non rempli arrive vide : `""` pour un texte, `[]` pour une liste, `fals
 | `implication` | liste | Multiple select | Être tenu(e) au courant de l'avancée · Tester les premières versions en avant-première, gratuitement · Donner mon avis régulièrement, dans un petit groupe de praticiens conseillers · M'impliquer davantage dans le projet (partenaire, associé) · Pas pour l'instant |
 | `actif_au_dela` | liste | Multiple select | J'enseigne ou je donne des formations · Membre d'une association ou d'un groupe d'étude · Actif sur les réseaux sociaux · Non |
 | `reseau_compte` | texte | Single line text | |
-| `nom` | texte | Single line text | |
-| `email` | texte | Email | |
-| `telephone` | texte | Phone number | |
+| `nom` | texte | Single line text | « Prénom Nom » (deux champs du formulaire, réunis) |
+| `email` | texte | Email | En minuscules, sans espaces |
 | `consentement` | booléen | Checkbox | Toujours `true` (obligatoire pour envoyer) |
 
 Colonnes à ajouter vous-même (pas dans le payload) :
@@ -116,4 +116,4 @@ Score maximum : 14.
 - Type : Grid.
 - Filtre : `email` n'est pas vide **et** `statut` n'est pas « Pas de suite ».
 - Tri : `score_priorite` décroissant, puis `recu_le` croissant.
-- Colonnes visibles en premier : `nom`, `email`, `telephone`, `appel`, `implication`, `actif_au_dela`, `reseau_compte`, `score_priorite`, `statut`.
+- Colonnes visibles en premier : `nom`, `email`, `appel`, `implication`, `actif_au_dela`, `reseau_compte`, `score_priorite`, `statut`.

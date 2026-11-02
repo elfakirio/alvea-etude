@@ -5,10 +5,8 @@ export const CONFIG = {
   SITE_URL: "https://alveadental.eu/etude/",
   CONTACT_EMAIL: "omar@alveadental.eu",
   CONTACT_NAME: "Omar",
-  PHOTO_URL: "",            // photo fournie plus tard ; vide = cercle avec l'initiale « O »
-  LINKEDIN_URL: "",         // profil LinkedIn ; vide = l'icône n'est pas affichée
-  CAL_LINK: "https://cal.com/omarfromalveadental/20min",
-  // Nom du champ téléphone dans le formulaire Cal.com (« attendeePhoneNumber » pour le champ
-  // téléphone standard ; si vous avez créé une question perso, mettez son identifiant).
-  CAL_PHONE_PARAM: "attendeePhoneNumber"
+  CONTACT_FULL_NAME: "Omar El Fakiri",
+  PHOTO_URL: "assets/omar.jpg",   // relatif à /etude/
+  LINKEDIN_URL: "https://www.linkedin.com/in/omar-el-fakiri-181224339/",
+  CAL_LINK: "omarfromalveadental/20min"   // calendrier Cal.com de l'appel de 20 min (intégré sur l'écran Merci)
 };

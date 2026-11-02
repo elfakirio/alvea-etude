@@ -20,14 +20,19 @@ etude/confidentialite.html  la politique de confidentialité, FR + EN
 etude/css/style.css         styles communs (thème clair / sombre automatique)
 etude/js/config.js          réglages : webhook, adresse, contact, photo, LinkedIn, Cal.com
 etude/js/i18n.js            textes FR + EN du questionnaire, valeurs des choix, avis
-etude/js/app.js             écrans, navigation, état, validation, envoi
+etude/js/app.js             écrans, navigation, état, validation, envoi, calendrier Cal.com
+etude/js/site.js            langue automatique et paramètres UTM (partagé avec la landing)
+etude/js/country.js         champ « Pays » : liste mondiale, pré-remplie sans réseau
 etude/js/reviews.js         cartes d'avis à toucher (écran 3)
 etude/js/demo.js            démo en 8 chapitres (écran 8)
 etude/js/demo3d.js          bouche 3D (Three.js r128 chargé à la demande) et devis fictif
-etude/assets/               logo, favicons, image de partage du questionnaire og-image.png
+etude/assets/               logo, favicons, photo omar.jpg, image de partage og-image.png,
+                            mouth-final-*.jpg (bouche fixe, sans WebGL ou en mouvement réduit)
 ```
 
-La landing réutilise les fichiers du questionnaire : les couleurs, polices et boutons (`etude/css/style.css`), les réglages (`etude/js/config.js`), les textes de la démo (`etude/js/i18n.js`) et la bouche 3D (`etude/js/demo3d.js`).
+La landing réutilise les fichiers du questionnaire : les couleurs, polices et boutons (`etude/css/style.css`), les réglages (`etude/js/config.js`), les textes de la démo (`etude/js/i18n.js`) la bouche 3D (`etude/js/demo3d.js`) et les blocs de la vue patient de la démo (`etude/js/demo.js`) : à la fin de l'animation, le téléphone de Sarah joue les chapitres 3 à 5 de la démo (plan en 3D visite par visite, attentes, devis par visite).
+
+**Langue** : `?lang=fr|en` dans l'adresse, sinon le dernier choix du bouton FR/EN (gardé dans le navigateur), sinon la première langue du navigateur (français si elle commence par `fr`, anglais sinon).
 
 ## Réglages (`etude/js/config.js`)
 
@@ -35,10 +40,10 @@ Un seul fichier, lu par la landing et par le questionnaire.
 
 - `WEBHOOK_URL` : URL du webhook Make (`https://hook.eu2.make.com/…`).
 - `SITE_URL` : adresse du questionnaire (`https://alveadental.eu/etude/`). Elle sert au lien de partage `?ref=`.
-- `CONTACT_EMAIL`, `CONTACT_NAME` : affichés à l'accueil du questionnaire, sur l'écran de fin et dans le pied de page de la landing.
-- `PHOTO_URL` : photo ronde de l'accueil du questionnaire. Déposez-la par exemple dans `etude/assets/omar.jpg`, puis mettez `"assets/omar.jpg"` (le chemin part du dossier `etude/`). Vide = cercle avec l'initiale.
-- `LINKEDIN_URL` : profil LinkedIn. Une fois rempli, une petite icône s'affiche à côté de la présentation d'Omar dans le questionnaire et dans le pied de page de la landing. Vide = rien n'est affiché.
-- `CAL_LINK` : lien Cal.com de l'appel de 20 min. Le calendrier s'affiche sur l'écran Merci quand le répondant a choisi « Oui, avec plaisir ». Le nom, l'e-mail et le téléphone sont pré-remplis. `CAL_PHONE_PARAM` donne le nom du champ téléphone côté Cal.com. Le numéro est converti au format international (`0470 12 34 56` en Belgique devient `+32470123456`).
+- `CONTACT_EMAIL`, `CONTACT_NAME`, `CONTACT_FULL_NAME` : affichés sur la carte profil de l'accueil du questionnaire, sur l'écran de fin et dans le pied de page de la landing.
+- `PHOTO_URL` : photo ronde de la carte profil (`"assets/omar.jpg"`, le chemin part du dossier `etude/`).
+- `LINKEDIN_URL` : profil LinkedIn (clic sur la photo, pastille « LinkedIn », icône du pied de page de la landing).
+- `CAL_LINK` : calendrier Cal.com de l'appel de 20 min (`"omarfromalveadental/20min"`). Après l'envoi, si le répondant a choisi « Oui, avec plaisir », le calendrier s'intègre dans l'écran Merci (script officiel `app.cal.com/embed/embed.js`, chargé seulement à ce moment-là), avec le nom et l'e-mail pré-remplis et les métadonnées `code_partage` et `utm`. Si le script ne charge pas (bloqueur, réseau), un bouton « Choisir un créneau » ouvre `cal.com/…` à la place. La mise à jour d'Airtable après réservation (« RDV pris ») se fait côté serveur, par un webhook Cal.com → Make.
 
 Tant que `WEBHOOK_URL` ne commence pas par `https://` (ou `http://localhost`, pratique pour tester avec un faux webhook local), le bouton « Envoyer » affiche « L'envoi n'est pas encore configuré » et le JSON est écrit dans la console du navigateur.
 
@@ -55,13 +60,13 @@ Si l'adresse du site change, mettez aussi à jour le fichier `CNAME` et les bali
 
 ## Ce qui est envoyé
 
-Un seul `POST` (`Content-Type: application/json`) à la fin. La liste des clés, leur type et la colonne Airtable correspondante sont dans `docs/airtable-champs.md`, et un exemple complet dans `docs/test-payload.json`. Les valeurs des choix sont toujours en français, même si le répondant a lu le site en anglais (`langue` vaut alors `EN`). Un champ non rempli part vide : `""`, `[]`, `false`, ou `null` pour les nombres.
+Un seul `POST` (`Content-Type: application/json`) à la fin. La liste des clés, leur type et la colonne Airtable correspondante sont dans `docs/airtable-champs.md`, et un exemple complet dans `docs/test-payload.json`. Les valeurs des choix sont toujours en français, même si le répondant a lu le site en anglais (`langue` vaut alors `EN`). Un champ non rempli n'est pas envoyé (la clé est absente). `nom` réunit prénom et nom ; `pays` est le nom du pays en français ; `utm` donne la source de visite (`source / medium / campaign`, lue dans l'adresse au premier chargement et gardée pour la visite).
 
 Protections :
 
-- **Champ caché `website` (honeypot)** : s'il est rempli, on affiche le remerciement sans rien envoyer. Il part aussi dans le payload (vide), pour le filtre du scénario Make.
+- **Champ caché `website` (honeypot)** : s'il est rempli, on affiche le remerciement sans rien envoyer.
 - **Durée minimale** : l'envoi est refusé si le parcours a duré moins de 60 secondes (message « rempli trop vite »).
-- **Échec réseau** : message clair et bouton « Réessayer ». Les réponses restent dans le navigateur (`localStorage`) jusqu'à un envoi réussi, puis sont effacées.
+- **Échec réseau** : 3 essais. S'ils échouent tous, la réponse est gardée dans le navigateur (`localStorage`, clé `alvea-outbox`) et renvoyée automatiquement au prochain chargement du questionnaire ; un message l'explique et le bouton « Réessayer » reste disponible.
 
 ## Partage entre dentistes
 

@@ -13,7 +13,25 @@ const ICON = {
   lock: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>`
 };
 
-export function mountDemo(host, { t, lang, reduced, answers, opt, esc, pos, onChange, onScore }) {
+/* Morceaux de la vue patient (chapitres 3 à 5), repris tels quels par l'animation de la landing. */
+export const dotsHTML = () => `<div class="dots" aria-hidden="true">${Array.from({ length: STEPS }, () => "<i></i>").join("")}</div>`;
+export function paintDots(root, step) {
+  root.querySelectorAll(".dots i").forEach((el, i) => { el.className = i === step ? "on" : i < step ? "past" : ""; });
+}
+export function stepCardHTML(c, step, esc) {
+  const s = c.steps[step];
+  return `<p class="k">${esc(s.k)}</p><p>${esc(s.t)}</p>${s.w ? `<p class="then"><b>${esc(c.then)}</b> ${esc(s.w)}</p>` : ""}`;
+}
+export function friseHTML(c, esc) {
+  const wait = ([h, p]) => `<li class="wait"><b>${esc(h)}</b><span>${esc(p)}</span></li>`;
+  return `<ol class="frise">${c.visits.map((v, i) => `<li class="visit${i === 3 ? " end" : ""}"><span class="dot"></span>${esc(v)}</li>${c.waits[i] ? wait(c.waits[i]) : ""}`).join("")}</ol>`;
+}
+export function billHTML(c, lang, esc) {
+  return `<div class="bill">${c.rows.map(([v, w, what], i) => `<div class="bl"><div><b>${esc(v)}</b>${w ? ` <span class="when">· ${esc(w)}</span>` : ""}<span class="what">${esc(what)}</span></div><span class="amt">${money(PRICES[i], lang)}</span></div>`).join("")}
+    <div class="bl total"><b>${esc(c.total)}</b><span class="amt">${money(PRICES.reduce((a, b) => a + b, 0), lang)}</span></div></div>`;
+}
+
+export function mountDemo(host, { t, lang, reduced, answers, opt, esc, pos, onChange, onScore, scrollTop }) {
   const d = t.demo;
   let ch = pos.ch || 0, step = pos.step || 0, mouth = null, alive = true;
 
@@ -58,20 +76,16 @@ export function mountDemo(host, { t, lang, reduced, answers, opt, esc, pos, onCh
           <p class="nogl" id="nogl" hidden>${esc(c.noWebgl)}</p>
           <span class="hint3d">${esc(c.hint)}</span>
         </div>
-        <div class="dots" aria-hidden="true">${Array.from({ length: STEPS }, () => "<i></i>").join("")}</div>
+        ${dotsHTML()}
         <div class="step-card" id="stepCard" aria-live="polite"></div>`;
     },
     4() {
-      const c = d.c4;
-      const wait = ([h, p]) => `<li class="wait"><b>${esc(h)}</b><span>${esc(p)}</span></li>`;
-      return `<h2 tabindex="-1">${esc(c.title)}</h2>
-        <ol class="frise">${c.visits.map((v, i) => `<li class="visit${i === 3 ? " end" : ""}"><span class="dot"></span>${esc(v)}</li>${c.waits[i] ? wait(c.waits[i]) : ""}`).join("")}</ol>`;
+      return `<h2 tabindex="-1">${esc(d.c4.title)}</h2>${friseHTML(d.c4, esc)}`;
     },
     5() {
       const c = d.c5;
       return `<h2 tabindex="-1">${esc(c.title)}</h2>
-        <div class="bill">${c.rows.map(([v, w, what], i) => `<div class="bl"><div><b>${esc(v)}</b>${w ? ` <span class="when">· ${esc(w)}</span>` : ""}<span class="what">${esc(what)}</span></div><span class="amt">${money(PRICES[i], lang)}</span></div>`).join("")}
-          <div class="bl total"><b>${esc(c.total)}</b><span class="amt">${money(PRICES.reduce((a, b) => a + b, 0), lang)}</span></div></div>
+        ${billHTML(c, lang, esc)}
         <p class="lead">${esc(c.text)}</p>`;
     },
     6() {
@@ -102,9 +116,8 @@ export function mountDemo(host, { t, lang, reduced, answers, opt, esc, pos, onCh
   };
 
   function paintStep() {
-    const c = d.c3, s = c.steps[step];
-    host.querySelectorAll(".dots i").forEach((el, i) => { el.className = i === step ? "on" : i < step ? "past" : ""; });
-    host.querySelector("#stepCard").innerHTML = `<p class="k">${esc(s.k)}</p><p>${esc(s.t)}</p>${s.w ? `<p class="then"><b>${esc(c.then)} :</b> ${esc(s.w)}</p>` : ""}`;
+    paintDots(host, step);
+    host.querySelector("#stepCard").innerHTML = stepCardHTML(d.c3, step, esc);
     if (mouth) mouth.setStep(step);
   }
 
@@ -132,9 +145,9 @@ export function mountDemo(host, { t, lang, reduced, answers, opt, esc, pos, onCh
     if (ch === 2) loadThree().catch(() => {});
     onChange({ ch, step });
     if (focus) {
-      window.scrollTo(0, 0);
       const h = host.querySelector("h2");
       if (h) h.focus({ preventScroll: true });
+      scrollTop();
     }
   }
 

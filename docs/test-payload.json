@@ -3,9 +3,12 @@
   "envoye_par": "ab12cd",
   "code_partage": "k3x4pu",
   "duree_secondes": 254,
-  "website": "",
+  "utm": "linkedin / profile / -",
   "plans_acceptes_sur_10": 6,
-  "avis_reconnus": ["explication_neg", "delais_neg"],
+  "avis_reconnus": [
+    "explication_neg",
+    "delais_neg"
+  ],
   "avis_aucun": false,
   "difference_1_5": "L'explication du traitement",
   "profil": "Implantologue",
@@ -13,11 +16,20 @@
   "annees_exercice": "5 à 15 ans",
   "part_implanto": "20 à 50 %",
   "pays": "Belgique",
-  "supports": ["Radio (panoramique, rétro-alvéolaire)", "Cone beam (radio 3D)", "Autre"],
+  "supports": [
+    "Radio (panoramique, rétro-alvéolaire)",
+    "Cone beam (radio 3D)",
+    "Autre"
+  ],
   "supports_autre": "Tablette avec schémas",
-  "qui_presente": ["Moi", "Un(e) coordinateur(trice) de traitement"],
+  "qui_presente": [
+    "Moi",
+    "Un(e) coordinateur(trice) de traitement"
+  ],
   "temps_explication": "15 à 30 min",
-  "patient_repart_avec": ["Un devis papier"],
+  "patient_repart_avec": [
+    "Un devis papier"
+  ],
   "logiciel": "Baltes",
   "issue_refus": "dit « je vais réfléchir » et ne revient pas",
   "raison_principale": "Autre",
@@ -31,17 +43,25 @@
   "demo_score": 4,
   "demo_chapitre_max": 7,
   "demo_duree_secondes": 96,
-  "elements_utiles": ["La bouche en 3D", "Le devis par visite"],
+  "elements_utiles": [
+    "La bouche en 3D",
+    "Le devis par visite"
+  ],
   "elements_autre": "",
   "dicter_realiste": "Plutôt oui",
   "prix_abonnement": "50 à 100 €",
   "manque": "L'intégration avec mon logiciel.",
   "appel": "Oui, avec plaisir",
-  "implication": ["Tester les premières versions en avant-première, gratuitement", "M'impliquer davantage dans le projet (partenaire, associé)"],
-  "actif_au_dela": ["J'enseigne ou je donne des formations", "Actif sur les réseaux sociaux"],
+  "implication": [
+    "Tester les premières versions en avant-première, gratuitement",
+    "M'impliquer davantage dans le projet (partenaire, associé)"
+  ],
+  "actif_au_dela": [
+    "J'enseigne ou je donne des formations",
+    "Actif sur les réseaux sociaux"
+  ],
   "reseau_compte": "@dr.test",
-  "nom": "Dr Test Alvea",
+  "nom": "Test Alvea",
   "email": "test@example.com",
-  "telephone": "+32 470 12 34 56",
   "consentement": true
 }

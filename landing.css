@@ -85,9 +85,13 @@
   box-shadow:0 8px 24px -16px rgba(15,60,55,.3)}
 .mouth-slot{height:150px;border-radius:12px;background:var(--stage);overflow:hidden;position:relative}
 .mouth-slot.small{height:112px}
-.mouth3d{position:absolute;inset:0}
+.mouth3d{position:absolute;inset:0;z-index:1}
 .mouth3d canvas{display:block;width:100%!important;height:100%!important}
-.no3d .mouth-slot{display:none}
+/* image fixe de l'étape finale : sans WebGL, ou en mouvement réduit */
+.mouth-still{display:none}
+.still .mouth-still{display:block;position:absolute;inset:0}
+.still .mouth-still img{width:100%;height:100%;object-fit:cover;display:block}
+.still .mouth3d{display:none}
 .visits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
 .visits li{display:none;grid-template-columns:auto 1fr;column-gap:9px;font-size:12.5px;line-height:1.4;animation:pop .4s ease both}
 .visits li.on{display:grid}
@@ -101,28 +105,50 @@
 
 .scrim{position:absolute;inset:0;z-index:3;background:color-mix(in srgb,var(--bg) 55%,transparent);opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
 .scrim.on{opacity:1;visibility:visible;transition:opacity .4s}
-.phone{position:absolute;z-index:4;right:16px;bottom:-6px;width:198px;height:372px;border-radius:30px;background:#1F2933;padding:7px;
-  box-shadow:0 30px 60px -20px rgba(10,30,30,.45);transform:translateY(105%);transition:transform .6s cubic-bezier(.3,.7,.2,1)}
-.phone.on{transform:translateY(0)}
+.phone{position:absolute;z-index:4;left:50%;bottom:8px;width:min(244px, calc(100% - 40px));height:calc(100% - 14px);max-height:470px;border-radius:30px;background:#1F2933;padding:7px;
+  box-shadow:0 30px 60px -20px rgba(10,30,30,.45);transform:translate(-50%,105%);transition:transform .6s cubic-bezier(.3,.7,.2,1)}
+.phone.on{transform:translate(-50%,0)}
 .phone-in{position:relative;height:100%;border-radius:24px;background:var(--surface);overflow:hidden}
 .ph-sms{padding:30px 12px 12px;display:flex;flex-direction:column;gap:8px}
 .sms-from{margin:0;text-align:center;font-size:10.5px;color:var(--muted)}
 .sms-b{margin:0;background:var(--stage);border-radius:16px 16px 16px 4px;padding:9px 11px;font-size:12px;line-height:1.45}
 .sms-b u{color:var(--teal-deep);font-weight:700;text-underline-offset:2px;border-radius:4px;transition:background .2s}
 .sms-b u.tap{background:var(--mint-soft)}
-.ph-page{position:absolute;inset:0;background:var(--surface);padding:14px 11px 11px;display:flex;flex-direction:column;gap:8px;
+.ph-page{position:absolute;inset:0;background:var(--surface);padding:12px 10px 10px;display:flex;flex-direction:column;gap:8px;
   opacity:0;transform:translateX(30px);transition:opacity .35s,transform .35s}
 .ph-page.on{opacity:1;transform:none}
-.pp-url{margin:0 auto;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);background:var(--bg);border-radius:999px;padding:3px 10px}
-.pp-title{margin:0;font-family:var(--font-display);font-weight:800;font-size:13.5px;line-height:1.25}
-.pp-bill{list-style:none;margin:0;padding:0;font-size:11.5px;display:flex;flex-direction:column;gap:4px}
-.pp-bill li{display:flex;justify-content:space-between;gap:6px;opacity:0;transition:opacity .3s}
-.pp-bill li.on{opacity:1}
-.pp-bill li b{font-weight:700;font-variant-numeric:tabular-nums}
-.pp-bill .tot{border-top:1px solid var(--line);padding-top:5px;margin-top:2px;font-weight:800}
-.pp-bill .tot b{color:var(--teal-deep)}
+.pp-url{flex:none;margin:0 auto;font-family:var(--font-mono);font-size:9.5px;color:var(--muted);background:var(--bg);border-radius:999px;padding:3px 10px}
 
-@media (min-width:480px){.assist{height:540px}.phone{right:22px;width:214px;height:396px}.mouth-slot{height:170px}}
+/* vue patient (mêmes blocs que la démo, en version téléphone) */
+.pv{position:relative;flex:1;min-height:0}
+.pv-scr{position:absolute;inset:0;display:flex;flex-direction:column;gap:8px;opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
+.pv-scr.on{opacity:1;visibility:visible;transition:opacity .4s}
+.pv-in,.pv-scr .frise > li,.pv-scr .bl{opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+.pv-in.on,.pv-scr .frise > li.on,.pv-scr .bl.on{opacity:1;transform:none}
+.pv .plan-head{gap:2px}
+.pv .plan-head .from{font-size:9.5px}
+.pv-title{margin:0;font-family:var(--font-display);font-weight:800;font-size:14px;line-height:1.2;letter-spacing:-.01em}
+.pv .small{font-size:10px}
+.pv .mouth-slot.small{flex:none;height:118px;border-radius:12px}
+.pv .dots{margin:0;gap:4px}
+.pv .dots i{width:6px;height:6px}
+.pv .dots i.on{width:16px}
+.pv .step-card{min-height:0;padding:9px 10px;gap:5px;border-radius:12px;font-size:11px;line-height:1.4}
+.pv .step-card .k{font-size:9.5px}
+.pv .step-card .then{padding:6px 8px;font-size:10.5px;border-radius:8px}
+.pv .frise{padding-left:2px}
+.pv .frise .visit{font-size:12px;gap:9px;padding:2px 0}
+.pv .frise .dot{width:11px;height:11px;box-shadow:0 0 0 3px var(--mint-soft)}
+.pv .frise .wait{margin-left:4.5px;padding:5px 0 5px 13px}
+.pv .frise .wait b{font-size:10.5px;padding:5px 8px 0}
+.pv .frise .wait span{font-size:10.5px;padding:1px 8px 5px;line-height:1.35}
+.pv .bill{padding:0 9px;border-radius:12px}
+.pv .bl{padding:7px 0;gap:8px;font-size:11.5px}
+.pv .bl .when{font-size:10px}
+.pv .bl .what{font-size:10.5px;line-height:1.35}
+.pv .bl.total{font-size:13px}
+
+@media (min-width:480px){.assist{height:540px}.phone{width:258px}.mouth-slot{height:170px}.pv .mouth-slot.small{height:128px}}
 @media (min-width:920px){.assist{height:560px}}
 
 /* ---------- trois étapes ---------- */

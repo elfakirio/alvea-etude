@@ -2,11 +2,16 @@
    Reprend les réglages, les textes de la démo et la bouche 3D du questionnaire (etude/js). */
 import { CONFIG } from "./etude/js/config.js";
 import { TEXTS } from "./etude/js/i18n.js";
-import { loadThree, createMouth, PRICES, money } from "./etude/js/demo3d.js";
+import { loadThree, createMouth } from "./etude/js/demo3d.js";
+import { dotsHTML, paintDots, stepCardHTML, friseHTML, billHTML } from "./etude/js/demo.js";
+import { ls, LANG_KEY, pickLang, setMeta, captureUtm } from "./etude/js/site.js";
 
 const L = {
   fr: {
     docTitle: "Alvea · Des plans de traitement que vos patients comprennent",
+    metaDesc: "Le dentiste dicte son plan, Alvea le transforme en un plan clair, en 3D, que le patient peut revoir chez lui. Alvea se construit en ce moment, avec des dentistes : participez à l'étude (5 minutes).",
+    ogTitle: "Alvea — Des plans de traitement que vos patients comprennent",
+    ogDesc: "Le dentiste dicte, le patient comprend. Alvea se construit avec des dentistes : une étude de 5 minutes, avec une démo.",
     skip: "Aller au contenu", lang: "Langue",
     navCta: "Participer à l'étude", navCtaShort: "L'étude",
     eyebrow: "Étude en cours auprès des dentistes",
@@ -14,9 +19,9 @@ const L = {
     sub: "Le dentiste dicte son plan, Alvea le transforme en un plan clair, en 3D, que le patient peut revoir chez lui.",
     building: "Alvea se construit en ce moment, avec des dentistes.",
     cta: "Participer à l'étude · 5 min",
-    write: "Écrire à Omar",
+    write: "Nous contacter",
     demoTag: "Démo · cas fictif",
-    demoSummary: "Démonstration animée, sur un cas fictif : le dentiste dicte « 36 fracturée, extraction et greffe. Implant à 8 semaines. Couronne céramique sur la 37, provisoire en attendant. » Alvea en fait un plan en 4 visites, avec la bouche en 3D, puis l'envoie par SMS à la patiente, qui l'ouvre chez elle avec le devis par visite : 605 €, 1 100 €, 350 € et 1 600 €, soit 3 655 €.",
+    demoSummary: "Démonstration animée, sur un cas fictif : le dentiste dicte « 36 fracturée, extraction et greffe. Implant à 8 semaines. Couronne céramique sur la 37, provisoire en attendant. » Alvea en fait un plan en 4 visites, avec la bouche en 3D, puis l'envoie par SMS à la patiente. Chez elle, Sarah voit la bouche en 3D évoluer visite par visite, pourquoi le traitement prend 6 mois (8 semaines de cicatrisation, 12 semaines d'ostéointégration, 3 semaines de laboratoire), et le devis par visite : 605 €, 1 100 €, 350 € et 1 600 €, soit 3 655 €.",
     hello: "Quel plan voulez-vous expliquer ?",
     placeholder: "Dictez votre plan de traitement…",
     think: ["Lecture du plan…", "Organisation des visites…", "Préparation de la vue patient…"],
@@ -31,6 +36,9 @@ const L = {
   },
   en: {
     docTitle: "Alvea · Treatment plans your patients understand",
+    metaDesc: "The dentist dictates the plan, Alvea turns it into a clear 3D plan that the patient can review at home. Alvea is being built right now, with dentists: take part in the study (5 minutes).",
+    ogTitle: "Alvea — Treatment plans your patients understand",
+    ogDesc: "The dentist dictates, the patient understands. Alvea is being built with dentists: a 5-minute study, with a demo.",
     skip: "Skip to content", lang: "Language",
     navCta: "Take part in the study", navCtaShort: "The study",
     eyebrow: "Study under way with dentists",
@@ -38,9 +46,9 @@ const L = {
     sub: "The dentist dictates the plan, Alvea turns it into a clear 3D plan that the patient can review at home.",
     building: "Alvea is being built right now, with dentists.",
     cta: "Take part in the study · 5 min",
-    write: "Write to Omar",
+    write: "Contact us",
     demoTag: "Demo · fictional case",
-    demoSummary: "Animated demo of a fictional case: the dentist dictates “36 fractured, extraction and graft. Implant at 8 weeks. Ceramic crown on 37, temporary in the meantime.” Alvea turns it into a 4-visit plan with the mouth in 3D, then texts it to the patient, who opens it at home with the quote per visit: €605, €1,100, €350 and €1,600, a total of €3,655.",
+    demoSummary: "Animated demo of a fictional case: the dentist dictates “36 fractured, extraction and graft. Implant at 8 weeks. Ceramic crown on 37, temporary in the meantime.” Alvea turns it into a 4-visit plan with the mouth in 3D, then texts it to the patient. At home, Sarah sees the 3D mouth change visit by visit, why the treatment takes 6 months (8 weeks of healing, 12 weeks of osseointegration, 3 weeks at the lab), and the quote per visit: €605, €1,100, €350 and €1,600, a total of €3,655.",
     hello: "Which plan would you like to explain?",
     placeholder: "Dictate your treatment plan…",
     think: ["Reading the plan…", "Organising the visits…", "Preparing the patient view…"],
@@ -57,15 +65,10 @@ const L = {
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const ls = {
-  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* sans stockage, la page marche quand même */ } }
-};
-const LANG_KEY = "alvea-lang"; // même clé que le questionnaire : la langue choisie ici le suit
+captureUtm();
 const params = new URLSearchParams(location.search);
 let langChosen = params.has("lang");
-let lang = params.get("lang") || ls.get(LANG_KEY) || ((navigator.language || "").toLowerCase().startsWith("en") ? "en" : "fr");
-if (!L[lang]) lang = "fr";
+let lang = pickLang(Object.keys(L));
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* ---------- textes et liens ---------- */
@@ -82,7 +85,7 @@ function studyHref() {
 function applyTexts() {
   const T = L[lang];
   document.documentElement.lang = lang;
-  document.title = T.docTitle;
+  setMeta({ title: T.docTitle, description: T.metaDesc, ogTitle: T.ogTitle, ogDescription: T.ogDesc });
   document.querySelectorAll("[data-t]").forEach(el => { el.textContent = T[el.dataset.t]; });
   $("#langs").setAttribute("aria-label", T.lang);
   document.querySelectorAll("#langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -105,7 +108,7 @@ $("#langs").addEventListener("click", e => {
 
 /* ---------- animation « assistant » ---------- */
 const box = $("#assist"), mouthEl = $("#mouth");
-let mouth = null, mouthTried = false, inView = false, started = false;
+let started = false, inView = false;
 // ?og : fenêtre figée sur l'accueil, pour générer l'image de partage og.png (voir README).
 if (params.has("og")) { started = true; document.body.classList.add("og"); }
 
@@ -129,16 +132,20 @@ function setPlaying() {
 }
 document.addEventListener("visibilitychange", setPlaying);
 
-function ensureMouth() {
-  if (mouthTried) return;
-  mouthTried = true;
-  const gl = (() => { try { const c = document.createElement("canvas"); return !!(c.getContext("webgl") || c.getContext("experimental-webgl")); } catch { return false; } })();
-  if (!gl) { box.classList.add("no3d"); return; }
+/* Bouche 3D : une par boucle, créée quand la réponse s'affiche (fenêtre visible), libérée au redémarrage.
+   Sans WebGL ou en mouvement réduit : image fixe de l'étape finale (classe « still »). */
+const hasGL = (() => { try { const c = document.createElement("canvas"); return !!(c.getContext("webgl") || c.getContext("experimental-webgl")); } catch { return false; } })();
+let mouth = null, still = !hasGL || reduced;
+function freeMouth() { if (mouth) { mouth.dispose(); mouth = null; } }
+function makeMouth(g, step) {
+  if (still || mouth) return;
   loadThree().then(() => {
-    try { mouth = createMouth(mouthEl, { orbit: true, reduced, step: reduced ? 4 : 0 }); }
-    catch { box.classList.add("no3d"); }
-  }).catch(() => box.classList.add("no3d"));
+    if (g !== gen || mouth || still) return;
+    try { mouth = createMouth(mouthEl, { orbit: true, reduced, step }); }
+    catch { still = true; box.classList.add("still"); }
+  }).catch(() => { still = true; box.classList.add("still"); });
 }
+const setStep = i => { if (mouth) mouth.setStep(i); };
 
 const el = id => document.getElementById(id);
 const show = (node, on = true) => node.classList.toggle("on", on);
@@ -146,7 +153,8 @@ const show = (node, on = true) => node.classList.toggle("on", on);
 /* Remet la fenêtre à l'état « accueil » et prépare les textes de la langue courante. */
 function build() {
   const T = L[lang], D = TEXTS[lang].demo;
-  box.className = "assist" + (box.classList.contains("no3d") ? " no3d" : "") + (playing ? "" : " paused");
+  freeMouth();
+  box.className = "assist" + (still ? " still" : "") + (playing ? "" : " paused");
   el("ph").textContent = T.placeholder;
   el("typed").querySelectorAll(".txt").forEach(n => n.remove());
   el("bUser").textContent = D.c2.quote;
@@ -158,19 +166,28 @@ function build() {
   el("smsFrom").textContent = D.c6.sms;
   el("smsText").textContent = D.c6.bubble;
   el("smsLink").textContent = D.c6.link;
-  el("ppTitle").textContent = D.c6.pageTitle;
-  const total = PRICES.reduce((a, b) => a + b, 0);
-  el("ppBill").innerHTML = D.c5.rows.map((r, i) => `<li><span>${esc(r[0])}</span><b>${esc(money(PRICES[i], lang))}</b></li>`).join("")
-    + `<li class="tot"><span>${esc(D.c5.total)}</span><b>${esc(money(total, lang))}</b></li>`;
+  // vue patient : mêmes textes et mêmes blocs que les chapitres 3 à 5 de la démo
+  el("pvHead").innerHTML = `<p class="from">${esc(D.c3.from)}</p><p class="pv-title">${esc(D.c3.title)}</p><p class="small">${esc(D.c3.stats)}</p>`;
+  el("pvDots").innerHTML = dotsHTML();
+  paintStep(0);
+  el("pvWhy").innerHTML = `<p class="pv-title">${esc(D.c4.title)}</p>${friseHTML(D.c4, esc)}`;
+  el("pvBill").innerHTML = `<p class="pv-title">${esc(D.c5.title)}</p>${billHTML(D.c5, lang, esc)}`;
   ["bUser", "bThink", "answer", "sum", "sendBtn"].forEach(id => { el(id).hidden = true; show(el(id), false); });
-  document.querySelectorAll("#visits li, #think li, #ppBill li").forEach(n => n.classList.remove("on", "done"));
-  ["lChat", "scrim", "phone", "phPage"].forEach(id => show(el(id), false));
+  document.querySelectorAll("#visits li, #think li, .pv-in, .pv-scr .frise > li, .pv-scr .bl").forEach(n => n.classList.remove("on", "done"));
+  ["lChat", "scrim", "phone", "phPage", "pvPlan", "pvWhy", "pvBill"].forEach(id => show(el(id), false));
   show(el("lHome")); show(el("composer")); el("composer").classList.remove("docked", "has-text");
   el("send").classList.remove("on"); el("sendBtn").classList.remove("pressed"); el("smsLink").classList.remove("tap");
   el("chatIn").parentElement.scrollTop = 0;
-  el("slotCard").appendChild(mouthEl);
-  if (mouth) mouth.setStep(0);
+  el("slotCard").prepend(mouthEl);
 }
+
+function paintStep(i) {
+  const c = TEXTS[lang].demo.c3;
+  paintDots(el("pvPlan"), i);
+  el("pvCard").innerHTML = stepCardHTML(c, i, esc);
+  setStep(i);
+}
+function screenTo(id) { ["pvPlan", "pvWhy", "pvBill"].forEach(s => show(el(s), s === id)); }
 
 function reveal(id) { const n = el(id); n.hidden = false; void n.offsetWidth; show(n); scrollChat(); }
 function scrollChat() { const c = el("lChat"); c.scrollTo({ top: c.scrollHeight, behavior: reduced ? "auto" : "smooth" }); }
@@ -178,6 +195,7 @@ function scrollChat() { const c = el("lChat"); c.scrollTo({ top: c.scrollHeight,
 async function cycle(g) {
   const w = ms => sleep(ms, g);
   build();
+  if (!still) loadThree().catch(() => {});   // Three.js se charge pendant la dictée
   // a. accueil
   await w(1600);
   // b. dictée, lettre par lettre
@@ -196,21 +214,33 @@ async function cycle(g) {
   for (const li of items) { li.classList.add("on"); await w(700); li.classList.add("done"); }
   await w(300);
   // d. la réponse
-  ensureMouth();
-  reveal("answer"); if (mouth) mouth.setStep(0);
+  makeMouth(g, 0);
+  reveal("answer");
   await w(700);
   const visits = el("visits").querySelectorAll("li");
-  for (let i = 0; i < visits.length; i++) { visits[i].classList.add("on"); if (mouth) mouth.setStep(i + 1); scrollChat(); await w(950); }
+  for (let i = 0; i < visits.length; i++) { visits[i].classList.add("on"); setStep(i + 1); scrollChat(); await w(950); }
   reveal("sum"); await w(500);
   reveal("sendBtn"); await w(700);
   // e. l'envoi à la patiente
   el("sendBtn").classList.add("pressed"); await w(400);
   show(el("scrim")); show(el("phone")); await w(1500);
   el("smsLink").classList.add("tap"); await w(500);
-  el("slotPhone").appendChild(mouthEl); show(el("phPage")); await w(400);
-  for (const li of el("ppBill").querySelectorAll("li")) { li.classList.add("on"); await w(320); }
+  // f. Sarah ouvre le lien : la vue patient de la démo, étape par étape
+  el("slotPhone").prepend(mouthEl); paintStep(0);
+  show(el("phPage")); screenTo("pvPlan");
+  show(el("pvHead")); await w(1400);
+  ["slotPhone", "pvDots", "pvCard"].forEach(id => show(el(id)));
+  await w(3200);
+  for (let i = 1; i <= 4; i++) { paintStep(i); await w(3400); }
+  // g. pourquoi ça prend 6 mois
+  screenTo("pvWhy"); await w(400);
+  for (const li of el("pvWhy").querySelectorAll(".frise > li")) { li.classList.add("on"); await w(320); }
   await w(2600);
-  // f. fondu, puis on recommence
+  // h. ce que vous payez, et quand
+  screenTo("pvBill"); await w(400);
+  for (const r of el("pvBill").querySelectorAll(".bl")) { r.classList.add("on"); await w(380); }
+  await w(3200);
+  // i. fondu, puis on recommence (la bouche 3D est libérée par build())
   box.classList.add("fade"); await w(650);
 }
 
@@ -219,15 +249,15 @@ async function run() {
   try { for (;;) await cycle(g); } catch (e) { if (!(e instanceof Stop)) throw e; }
 }
 
-/* Mouvement réduit : pas d'animation, on montre directement la réponse et la fenêtre patiente. */
+/* Mouvement réduit : pas d'animation ni de 3D. On montre la vue patient à l'étape finale, avec l'image fixe. */
 function finalState() {
+  gen++;
   build();
   show(el("lHome"), false); el("composer").classList.add("docked"); show(el("lChat"));
   ["bUser", "bThink", "answer", "sum", "sendBtn"].forEach(id => { el(id).hidden = false; show(el(id)); });
-  document.querySelectorAll("#think li, #visits li, #ppBill li").forEach(n => n.classList.add("on", "done"));
-  show(el("scrim")); show(el("phone")); show(el("phPage"));
-  el("slotPhone").appendChild(mouthEl);
-  if (mouth) mouth.setStep(4);
+  document.querySelectorAll("#think li, #visits li, .pv-in").forEach(n => n.classList.add("on", "done"));
+  show(el("scrim")); show(el("phone")); show(el("phPage")); screenTo("pvPlan");
+  paintStep(4);
   el("lChat").scrollTop = el("lChat").scrollHeight;
 }
 
@@ -242,8 +272,7 @@ new IntersectionObserver(es => {
   setPlaying();
   if (inView && !started) {
     started = true;
-    if (reduced) { ensureMouth(); finalState(); }
-    else { run(); setTimeout(ensureMouth, 2500); } // Three.js se charge pendant la dictée
+    if (reduced) finalState(); else run();
   }
 }, { threshold: 0.15 }).observe(box);
 

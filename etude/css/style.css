@@ -7,19 +7,20 @@
   --font-display:"Manrope", "Segoe UI", system-ui, sans-serif;
   --font-body:"Manrope", "Segoe UI", system-ui, sans-serif;
   --font-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --radius:14px; --nav-h:76px;
+  --radius:14px; --nav-h:76px; --top-h:59px;
+  --card:#FFFFFF; --card-line:#DCE6E3; --linkedin:#0A66C2;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111A1F; --surface:#18232A; --stage:#0D1519; --fg:#E7EEEC; --muted:#9AAAB1; --line:#2A3A42;
   --teal:#2DD4BF; --teal-deep:#5EEAD4; --mint:#7DD3C0; --mint-soft:#163631;
   --v1:#F08A6E; --v2:#6E9BD1; --v3:#A88BDA; --v4:#2DD4BF;
-  --err:#FCA5A5; --star:#F2B95A; --on-accent:#0B1A17; color-scheme:dark}}
+  --err:#FCA5A5; --star:#F2B95A; --on-accent:#0B1A17; --card:#18232A; --card-line:#2A3A42; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111A1F; --surface:#18232A; --stage:#0D1519; --fg:#E7EEEC; --muted:#9AAAB1; --line:#2A3A42;
   --teal:#2DD4BF; --teal-deep:#5EEAD4; --mint:#7DD3C0; --mint-soft:#163631;
   --v1:#F08A6E; --v2:#6E9BD1; --v3:#A88BDA; --v4:#2DD4BF;
-  --err:#FCA5A5; --star:#F2B95A; --on-accent:#0B1A17; color-scheme:dark}
+  --err:#FCA5A5; --star:#F2B95A; --on-accent:#0B1A17; --card:#18232A; --card-line:#2A3A42; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -56,7 +57,7 @@ main{display:block}
   display:flex;flex-direction:column;gap:22px;animation:enter .24s ease both}
 @keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0}
-h1,h2{font-family:var(--font-display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1,h2{font-family:var(--font-display);letter-spacing:-.02em;margin:0;text-wrap:balance;scroll-margin-top:calc(var(--top-h) + 16px)}
 h1{font-weight:800;font-size:clamp(28px,7.4vw,44px);line-height:1.1}
 h2{font-weight:800;font-size:clamp(23px,5.6vw,30px);line-height:1.18}
 .lead{font-size:17px;color:var(--muted);margin:0;text-wrap:pretty}
@@ -193,13 +194,48 @@ h2{font-weight:800;font-size:clamp(23px,5.6vw,30px);line-height:1.18}
 .opts.cta .opt:first-child:has(input:checked)::after{content:"✓";margin-left:8px}
 .opts.cta .opt:not(:first-child):has(input:checked){color:var(--fg)}
 
-/* ---------- accueil : présentation ---------- */
-.intro{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
-.intro p{margin:0;font-size:15px;line-height:1.5}
-.in-link{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;margin:-10px -10px 0 auto;color:var(--muted);border-radius:10px}
+/* ---------- accueil : carte profil ---------- */
+.profile{background:var(--card);border:1px solid var(--card-line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.pf-top{display:flex;align-items:center;gap:14px}
+.pf-photo{position:relative;flex:none;width:64px;height:64px;border-radius:50%}
+.pf-photo img{display:block;width:64px;height:64px;border-radius:50%;object-fit:cover;background:var(--mint-soft)}
+.pf-badge{position:absolute;right:-3px;bottom:-3px;width:24px;height:24px;border-radius:50%;background:var(--linkedin);color:#fff;
+  border:2px solid #fff;display:flex;align-items:center;justify-content:center}
+.pf-badge svg{width:11px;height:11px}
+.pf-id{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pf-id b{font-size:17px;font-weight:800;line-height:1.25}
+.pf-id span{font-size:14px;color:var(--muted)}
+.pf-text{margin:0;font-size:15px;line-height:1.55}
+.pf-talk{margin:4px 0 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.pf-links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1.5px solid var(--card-line);border-radius:999px;
+  background:var(--card);color:var(--fg);font-size:14px;font-weight:600;text-decoration:none;line-height:1.2;overflow-wrap:anywhere}
+.pill svg{flex:none;width:18px;height:18px;color:var(--teal-deep)}
+.pill:hover{border-color:var(--teal);background:var(--mint-soft)}
+.in-link{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:var(--muted);border-radius:10px}
 .in-link:hover{color:var(--teal-deep)}
-.avatar{flex:none;width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--mint-soft);color:var(--teal-deep);
-  display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:24px}
+
+/* ---------- pays : liste à rechercher ---------- */
+.combo{position:relative}
+.combo .text{padding-right:52px}
+.combo-btn{position:absolute;right:2px;top:2px;bottom:2px;width:48px;appearance:none;border:0;background:transparent;color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;border-radius:10px}
+.combo-list{position:absolute;z-index:12;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;max-height:min(320px, 50vh);overflow-y:auto;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:12px;box-shadow:0 16px 40px -12px rgba(15,40,40,.3);overscroll-behavior:contain}
+.combo-list[hidden]{display:none}
+.combo-list li{padding:11px 12px;min-height:44px;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center}
+.combo-list li.sep{margin-top:7px;position:relative}
+.combo-list li.sep::before{content:"";position:absolute;left:8px;right:8px;top:-4px;border-top:1px solid var(--line)}
+.combo-list li.other{border-top:1px solid var(--line);border-radius:0 0 8px 8px;color:var(--muted)}
+.combo-list li.active{background:var(--mint-soft)}
+.combo-list li[aria-selected="true"]{font-weight:700}
+.combo-list li.none{color:var(--muted);cursor:default;font-size:14px}
+
+/* ---------- prénom / nom côte à côte ---------- */
+.pair{display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
+@media (min-width:480px){.pair{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+.req-star{color:var(--err);font-weight:800;margin-left:2px}
+.req-star[hidden]{display:none}
 
 /* ---------- écran 8 : démo en chapitres ---------- */
 .demo-screen{gap:16px}
@@ -221,7 +257,6 @@ h2{font-weight:800;font-size:clamp(23px,5.6vw,30px);line-height:1.18}
 .paper .tot{display:flex;justify-content:space-between;font-weight:800;font-size:15px;padding-top:8px}
 .pills{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .pills li{background:var(--surface);border:1.5px dashed var(--teal);color:var(--teal-deep);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
-.pills li::before{content:"? ";font-weight:800}
 .dictee{margin:0;background:#16242B;color:#E7EEEC;border-radius:var(--radius);padding:16px;display:flex;gap:12px;align-items:flex-start}
 .dictee .mic{flex:none;width:38px;height:38px;border-radius:50%;background:#14B8A6;color:#0B1A17;display:inline-flex;align-items:center;justify-content:center}
 .dictee .mic svg{width:20px;height:20px}
@@ -301,10 +336,18 @@ h2{font-weight:800;font-size:clamp(23px,5.6vw,30px);line-height:1.18}
 .score-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:-4px}
 
 /* ---------- écran 11 : merci ---------- */
-.thanks .mark{width:56px;height:56px}
-.booking{background:var(--surface);border:2px solid var(--teal-deep);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
-.booking h2{font-size:20px}
-.booking iframe{width:100%;height:680px;border:0;border-radius:12px;background:var(--bg)}
+.done-icon{width:48px;height:48px;border-radius:50%;background:var(--teal-deep);color:var(--on-accent);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.done-icon svg{width:26px;height:26px}
+.thanks h1{font-size:clamp(25px,6.4vw,36px)}
+/* Calendrier Cal.com : pleine largeur (jusqu'à 960 px), hauteur donnée par Cal.com lui-même */
+.cal-wrap{margin-left:calc(50% - min(480px, 50vw - 16px));margin-right:calc(50% - min(480px, 50vw - 16px));min-height:120px;margin-top:-8px}
+.cal-inline{width:100%;overflow:visible}
+.cal-inline iframe{width:100%!important;border:0}
+.cal-loading{padding:24px 0;text-align:center}
+.cal-wrap .btn{align-self:flex-start;margin-top:10px}
+.booked{display:flex;gap:10px;align-items:flex-start}
+.booked[hidden]{display:none}
+.booked svg{flex:none;width:20px;height:20px;margin-top:2px;color:var(--teal-deep)}
 .share{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
 .share h2{font-size:20px}
 .share .linkbox{display:flex;gap:8px;flex-direction:column}
@@ -319,6 +362,7 @@ h2{font-weight:800;font-size:clamp(23px,5.6vw,30px);line-height:1.18}
 .foot{font-size:12px;color:var(--muted);text-align:center;padding:8px 0 0}
 
 @media (min-width:768px){
+  :root{--top-h:67px}
   .screen{padding-top:44px}
   .topbar-in{height:64px}
 }

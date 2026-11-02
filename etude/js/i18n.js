@@ -58,14 +58,17 @@ export const REVIEW_PAIRS = [
       en: "He takes the time to explain what the problem is […], to define the treatment steps so that everything goes as smoothly as possible.", stars: 5 } },
   { theme: "surprise",
     neg: { fr: "Fallait me le dire dès le début.",
-      en: "You should have told me from the start.", stars: 3 },
+      en: "You should have told me from the start.", stars: 1 },
     pos: { fr: "Il a été transparent dès le début, avec un devis clair et sans mauvaise surprise.",
       en: "He was transparent from the start, with a clear quote and no unpleasant surprises.", stars: 5 } }
 ];
 
 export const TEXTS = {
   fr: {
-    meta: { title: "Alvea dental · Étude auprès des dentistes" },
+    meta: { title: "Alvea dental · Étude auprès des dentistes",
+      description: "Comment vos patients comprennent-ils vos plans de traitement ? Une étude de marché de 5 minutes auprès des dentistes, avec une petite démo 3D.",
+      ogTitle: "Comment vos patients comprennent-ils vos plans ?",
+      ogDescription: "Une étude de marché de 5 minutes auprès des dentistes, avec une petite démo 3D." },
     ui: {
       start: "Commencer", next: "Continuer", validate: "Valider", back: "Retour", restart: "Recommencer",
       restartConfirm: "Effacer vos réponses et recommencer depuis le début ?",
@@ -74,8 +77,9 @@ export const TEXTS = {
       errRequired: "Merci de répondre à cette question.",
       errEmail: "Cette adresse e-mail ne semble pas valide.",
       errEmailNeeded: "Indiquez votre e-mail pour que nous puissions vous recontacter.",
-      errPhoneNeeded: "Indiquez votre numéro pour que je puisse vous appeler.",
-      errPhone: "Ce numéro ne semble pas complet.",
+      errFirstNeeded: "Indiquez votre prénom.",
+      errLastNeeded: "Indiquez votre nom.",
+      countryPh: "Tapez pour chercher un pays", countryList: "Afficher la liste des pays", countryNone: "Aucun pays trouvé",
       errConsent: "Cochez cette case pour pouvoir envoyer vos réponses.",
       errSlider: "Déplacez le curseur pour indiquer votre réponse.",
       errMax: "Deux suffisent : retirez-en un pour en choisir un autre.",
@@ -84,7 +88,9 @@ export const TEXTS = {
     welcome: {
       title: "Comment vos patients comprennent-ils vos plans de traitement ?",
       sub: "Une étude de marché de 5 minutes, auprès des dentistes.",
-      intro: "Je m'appelle Omar, je lance Alvea à Bruxelles. Je travaille sur un outil pour aider les dentistes à expliquer leurs plans de traitement aux patients. Avant de construire quoi que ce soit, je veux comprendre comment vous travaillez vraiment. Une question ? Écrivez-moi : {email}",
+      role: "Fondateur · Alvea dental",
+      intro: "Je lance Alvea, un outil qui aide les dentistes à expliquer leurs plans de traitement aux patients. Je le construis au plus près de votre pratique : vos réponses orientent directement ce qu'on développe.",
+      talk: "Échangeons directement", call: "Appel de 20 min", photoLink: "{name} sur LinkedIn",
       small: "Anonyme si vous le souhaitez · Aucune donnée de patient demandée"
     },
     slider: {
@@ -105,7 +111,7 @@ export const TEXTS = {
       refus: { title: "Quand un patient dit « je vais réfléchir »" },
       outils: { title: "Ce que vous avez déjà essayé" },
       idee: { title: "Votre avis sur l'idée" },
-      suite: { kicker: "Dernière étape · environ 30 s", title: "Rejoindre l'aventure",
+      suite: { kicker: "Dernière étape", title: "Rejoindre l'aventure",
         sub: "Avec Alvea, je veux aider les dentistes à faire accepter plus de plans de traitement, en les rendant clairs pour leurs patients. Le produit se construit maintenant, avec des praticiens. Si l'idée vous parle, vous pouvez en faire partie. C'est gratuit." }
     },
     q: {
@@ -143,11 +149,12 @@ export const TEXTS = {
       reseau_compte: "Votre compte Instagram ou LinkedIn ?",
       coords: "Vos coordonnées",
       coords_hint: "Laissez-les seulement si vous voulez qu'on se reparle.",
-      nom: "Nom et prénom",
+      coords_hint_call: "Pour vous envoyer l'invitation à l'appel.",
+      coords_hint_mail: "Pour vous écrire directement.",
+      prenom: "Prénom",
+      nom_famille: "Nom",
       email: "E-mail",
-      telephone: "Téléphone",
-      telephone_hint: "Pour l'appel, et pour pré-remplir la prise de rendez-vous.",
-      consentement: "Je comprends qu'il s'agit d'une étude de marché pour un produit qui n'existe pas encore. J'accepte que mes réponses soient utilisées de façon confidentielle pour cette étude, et que mes coordonnées, si je les donne, servent uniquement à me recontacter à ce sujet. Mon téléphone sert uniquement à organiser cet appel.",
+      consentement: "Je comprends qu'il s'agit d'une étude de marché pour un produit qui n'existe pas encore. J'accepte que mes réponses soient utilisées de façon confidentielle pour cette étude, et que mes coordonnées, si je les donne, servent uniquement à me recontacter à ce sujet.",
       consent_link: "Politique de confidentialité"
     },
     demo: {
@@ -169,7 +176,7 @@ export const TEXTS = {
         text: "Le dentiste relit et valide tout. Rien ne part au patient sans son accord." },
       c3: { from: "Cabinet dentaire du Parc · Dr Martin", title: "Bonjour Sarah, voici votre plan",
         stats: "4 visites · ~6 mois · 3h45 au fauteuil", hint: "Glisser pour tourner la bouche",
-        noWebgl: "La vue 3D n'a pas pu se charger sur cet appareil.", then: "Ensuite",
+        noWebgl: "La vue 3D n'a pas pu se charger sur cet appareil.", then: "Ensuite :",
         stepLabel: "Étape {n} sur 5",
         nextVisit: "Visite {n} →", last: "Pourquoi 6 mois ?",
         steps: [
@@ -203,17 +210,20 @@ export const TEXTS = {
     submit: {
       send: "Envoyer", sending: "Envoi en cours…", retry: "Réessayer",
       error: "L'envoi n'a pas abouti. Vérifiez votre connexion et réessayez.",
+      kept: "L'envoi n'a pas abouti. Vos réponses sont gardées sur cet appareil et repartiront automatiquement à votre prochaine visite. Vous pouvez aussi réessayer maintenant.",
       tooFast: "Envoi refusé : le questionnaire a été rempli trop vite.",
       notConfigured: "L'envoi n'est pas encore configuré (URL du webhook manquante)."
     },
     thanks: {
-      title: "Merci, docteur.",
-      line: "Vos réponses vont directement orienter ce qu'on construit.",
-      calTitle: "Choisissez votre créneau de 20 minutes",
-      calFrame: "Calendrier de prise de rendez-vous",
-      calOpen: "Ouvrir dans un nouvel onglet",
-      calMissing: "Je vous écris très vite pour fixer un moment.",
+      titleName: "Merci {name}, vos réponses sont enregistrées.",
+      title: "Merci, vos réponses sont enregistrées.",
+      calStep: "Dernière étape : choisissez un créneau.",
+      calLoading: "Chargement du calendrier…",
+      calButton: "Choisir un créneau",
+      calFallback: "Le calendrier n'a pas pu s'afficher ici. Choisissez votre créneau sur Cal.com :",
+      booked: "C'est réservé : {date} à {time}. L'invitation et le lien visio sont envoyés à {email}. Si vous ne les voyez pas, regardez dans vos spams.",
       byEmail: "Je vous écris très vite à {email}.",
+      noCall: "Elles vont vraiment guider ce qu'on construit.",
       shareTitle: "Transmettre à un confrère",
       shareText: "Ce projet avance grâce aux praticiens qui le font circuler. Si chacun le transmet à trois confrères, en trois relais, près de 40 praticiens auront donné leur avis. Votre lien personnel :",
       copy: "Copier le lien", copied: "Lien copié", copyFallback: "Le lien est sélectionné : copiez-le avec votre clavier.",
@@ -225,7 +235,10 @@ export const TEXTS = {
   },
 
   en: {
-    meta: { title: "Alvea dental · A study with dentists" },
+    meta: { title: "Alvea dental · A study with dentists",
+      description: "How do your patients understand your treatment plans? A 5-minute market study with dentists, with a small 3D demo.",
+      ogTitle: "How do your patients understand your plans?",
+      ogDescription: "A 5-minute market study with dentists, with a small 3D demo." },
     ui: {
       start: "Start", next: "Continue", validate: "Confirm", back: "Back", restart: "Start over",
       restartConfirm: "Clear your answers and start again from the beginning?",
@@ -234,8 +247,9 @@ export const TEXTS = {
       errRequired: "Please answer this question.",
       errEmail: "This email address doesn't look valid.",
       errEmailNeeded: "Please give your email so we can get back to you.",
-      errPhoneNeeded: "Please give your number so I can call you.",
-      errPhone: "This number looks incomplete.",
+      errFirstNeeded: "Please give your first name.",
+      errLastNeeded: "Please give your last name.",
+      countryPh: "Type to search for a country", countryList: "Show the list of countries", countryNone: "No country found",
       errConsent: "Please tick this box to send your answers.",
       errSlider: "Move the slider to give your answer.",
       errMax: "Two is enough: remove one to pick another.",
@@ -244,7 +258,9 @@ export const TEXTS = {
     welcome: {
       title: "How do your patients understand your treatment plans?",
       sub: "A 5-minute market study with dentists.",
-      intro: "My name is Omar, and I'm launching Alvea in Brussels. I'm working on a tool to help dentists explain their treatment plans to patients. Before building anything, I want to understand how you really work. A question? Write to me: {email}",
+      role: "Founder · Alvea dental",
+      intro: "I'm building Alvea, a tool that helps dentists explain treatment plans to their patients. I'm building it as close as possible to your day-to-day practice: your answers directly shape what we develop.",
+      talk: "Let's talk directly", call: "20-min call", photoLink: "{name} on LinkedIn",
       small: "Anonymous if you wish · No patient data requested"
     },
     slider: {
@@ -265,7 +281,7 @@ export const TEXTS = {
       refus: { title: "When a patient says “I'll think about it”" },
       outils: { title: "What you have already tried" },
       idee: { title: "Your view on the idea" },
-      suite: { kicker: "Last step · about 30 s", title: "Join the adventure",
+      suite: { kicker: "Last step", title: "Join the adventure",
         sub: "With Alvea, I want to help dentists get more treatment plans accepted, by making them clear for their patients. The product is being built now, with practitioners. If the idea speaks to you, you can be part of it. It's free." }
     },
     q: {
@@ -303,11 +319,12 @@ export const TEXTS = {
       reseau_compte: "Your Instagram or LinkedIn account?",
       coords: "Your contact details",
       coords_hint: "Only leave them if you'd like us to talk again.",
-      nom: "Full name",
+      coords_hint_call: "To send you the invitation to the call.",
+      coords_hint_mail: "To write to you directly.",
+      prenom: "First name",
+      nom_famille: "Last name",
       email: "Email",
-      telephone: "Phone",
-      telephone_hint: "For the call, and to prefill the booking form.",
-      consentement: "I understand this is market research for a product that doesn't exist yet. I agree that my answers will be used confidentially for this study, and that my contact details, if I give them, will only be used to get back to me about it. My phone number is only used to arrange that call.",
+      consentement: "I understand this is market research for a product that doesn't exist yet. I agree that my answers will be used confidentially for this study, and that my contact details, if I give them, will only be used to get back to me about it.",
       consent_link: "Privacy policy"
     },
     demo: {
@@ -329,7 +346,7 @@ export const TEXTS = {
         text: "The dentist reviews and approves everything. Nothing goes to the patient without their approval." },
       c3: { from: "Parc Dental Practice · Dr Martin", title: "Hello Sarah, here is your plan",
         stats: "4 visits · ~6 months · 3h45 in the chair", hint: "Drag to rotate the mouth",
-        noWebgl: "The 3D view could not load on this device.", then: "Next",
+        noWebgl: "The 3D view could not load on this device.", then: "Next:",
         stepLabel: "Step {n} of 5",
         nextVisit: "Visit {n} →", last: "Why 6 months?",
         steps: [
@@ -363,17 +380,20 @@ export const TEXTS = {
     submit: {
       send: "Send", sending: "Sending…", retry: "Try again",
       error: "Sending failed. Check your connection and try again.",
+      kept: "Sending failed. Your answers are kept on this device and will be sent automatically on your next visit. You can also try again now.",
       tooFast: "Not sent: the questionnaire was completed too quickly.",
       notConfigured: "Sending isn't configured yet (webhook URL missing)."
     },
     thanks: {
-      title: "Thank you, doctor.",
-      line: "Your answers will directly shape what we build.",
-      calTitle: "Pick your 20-minute slot",
-      calFrame: "Booking calendar",
-      calOpen: "Open in a new tab",
-      calMissing: "I'll write to you very soon to find a time.",
+      titleName: "Thank you {name}, your answers have been saved.",
+      title: "Thank you, your answers have been saved.",
+      calStep: "Last step: pick a time slot.",
+      calLoading: "Loading the calendar…",
+      calButton: "Pick a time slot",
+      calFallback: "The calendar couldn't be shown here. Pick your slot on Cal.com:",
+      booked: "You're booked: {date} at {time}. The invitation and video link have been sent to {email}. If you can't see them, check your spam folder.",
       byEmail: "I'll write to you very soon at {email}.",
+      noCall: "They will genuinely guide what we build.",
       shareTitle: "Pass it on to a colleague",
       shareText: "This project moves forward thanks to the practitioners who pass it on. If everyone sends it to three colleagues, over three rounds, nearly 40 practitioners will have shared their view. Your personal link:",
       copy: "Copy link", copied: "Link copied", copyFallback: "The link is selected: copy it with your keyboard.",
